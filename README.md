@@ -1,12 +1,15 @@
 # God's Eye View — Seventh City desk
 
-Hosted, click-to-open dashboard for [bilawalsidhu/gods-eye-view](https://github.com/bilawalsidhu/gods-eye-view). The source of truth is this GitHub repo. Nothing has to keep running on the PC.
+Hosted, click-to-open dashboard for [bilawalsidhu/gods-eye-view](https://github.com/bilawalsidhu/gods-eye-view). The source of truth is this GitHub repo: **https://github.com/MastersX888/gods-eye-view**. Nothing has to keep running on the PC.
 
 Audited upstream pin: `759652207fd1279ece97f0f19af566feb9a82146`. See [SECURITY-AUDIT.md](SECURITY-AUDIT.md).
 
 ## Open it
 
-After deploy, the live URL is printed by Wrangler / the GitHub Action. The desktop shortcut created on this PC points at that URL and refreshes live from public feeds (flights, satellites, launches, earthquakes, cameras).
+- Dashboard: **https://mastersx888.github.io/gods-eye-view/**
+- Desktop shortcut: `God's Eye View` (Chrome app window)
+
+The globe and USGS earthquakes work on GitHub Pages immediately. Full live flights / satellites / cameras need the Cloudflare Worker in front (`wrangler deploy` after a fresh `wrangler login`). Secret-bearing keys stay off this public desk.
 
 ## What works without keys
 

@@ -1,0 +1,61 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: gev-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: '1'
+      GEV_UPSTREAM_SHA: 759652207fd1279ece97f0f19af566feb9a82146
+    steps:
+      - name: Check out desk
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check out audited upstream
+        uses: actions/checkout@v4
+        with:
+          repository: bilawalsidhu/gods-eye-view
+          ref: ${{ env.GEV_UPSTREAM_SHA }}
+          path: upstream
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: npm
+          cache-dependency-path: upstream/package-lock.json
+
+      - name: Build the official client
+        working-directory: upstream
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: upstream/dist
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
