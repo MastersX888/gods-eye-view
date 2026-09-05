@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.gev-cache/
+.wrangler/
+.dev.vars
+.env
+*.log

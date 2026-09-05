@@ -1,0 +1,60 @@
+name: Build and deploy God's Eye View
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gev-desk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: '1'
+      GEV_UPSTREAM_SHA: 759652207fd1279ece97f0f19af566feb9a82146
+    steps:
+      - name: Check out desk
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check out audited upstream
+        uses: actions/checkout@v4
+        with:
+          repository: bilawalsidhu/gods-eye-view
+          ref: ${{ env.GEV_UPSTREAM_SHA }}
+          path: upstream
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: npm
+          cache-dependency-path: upstream/package-lock.json
+
+      - name: Install and build the client
+        working-directory: upstream
+        run: |
+          npm ci
+          npm run build
+          test -f dist/index.html
+
+      - name: Stage Worker over the production bundle
+        run: |
+          rm -rf dist
+          mv upstream/dist dist
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy

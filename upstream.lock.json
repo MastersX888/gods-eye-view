@@ -1,0 +1,6 @@
+{
+  "upstream": "https://github.com/bilawalsidhu/gods-eye-view",
+  "auditedSha": "759652207fd1279ece97f0f19af566feb9a82146",
+  "auditedAt": "2026-09-05T21:45:00Z",
+  "auditedMessage": "fix: improve mapped installations and map-source guidance (#183)"
+}

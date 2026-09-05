@@ -1,0 +1,14 @@
+{
+  "name": "gods-eye-view",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "vars": {
+    "GEV_UPSTREAM_SHA": "759652207fd1279ece97f0f19af566feb9a82146"
+  }
+}

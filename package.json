@@ -1,0 +1,13 @@
+{
+  "name": "gods-eye-view-desk",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Hosted Seventh City dashboard for the audited God's Eye View client",
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.129.0"
+  }
+}
